@@ -21,8 +21,14 @@ def pregunta_01():
     214
 
     """
-    return
-
+    with open('data.csv', 'r') as file:
+        data = file.readlines()     
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
+    sum = 0
+    for row in data:
+        sum += int(row[1])
+    return sum
 
 def pregunta_02():
     """
@@ -39,8 +45,19 @@ def pregunta_02():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
+    data =[row[0] for row in data]
+    suma = {row[0]: 0 for row in data}
 
+
+    for i in data:
+        suma[i] = suma[i] + 1
+    sum = list(suma.items())
+    sum.sort(key=lambda x: x[0])
+    return sum
 
 def pregunta_03():
     """
@@ -57,7 +74,16 @@ def pregunta_03():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
+    suma = {row[0]: 0 for row in data}
+    for i in data:
+        suma[i[0]] = suma[i[0]] + int(i[1])
+    suma = [(i, j) for i, j in suma.items()]
+    suma.sort(key=lambda x: x[0])
+    return suma
 
 
 def pregunta_04():
@@ -82,7 +108,20 @@ def pregunta_04():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
+    data = [row[2] for row in data]
+    data = [i.split('-') for i in data]
+    data = [mes[1] for mes in data]
+    suma = {mes: 0 for mes in data}
+    sum = 0
+    for i in data:
+        suma[i] = suma[i] + 1
+    suma = [(key, value) for key, value in suma.items()]
+    suma.sort(key=lambda x: x[0])
+    return suma
 
 
 def pregunta_05():
@@ -100,7 +139,22 @@ def pregunta_05():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
+    data = [(row[0], row[1]) for row in data]
+    dic = { key[0]: [0 ,10 ] for key in data}
+    for i in data:
+        if dic[i[0]][0] < int(i[1]):
+            dic[i[0]][0] = int(i[1])
+
+        if dic[i[0]][1] > int(i[1]):
+            dic[i[0]][1] = int(i[1])
+        
+    list_tupla = [(key, value[0], value[1]) for key, value in dic.items()]
+    list_tupla.sort(key=lambda x: x[0])
+    return list_tupla
 
 
 def pregunta_06():
@@ -125,7 +179,29 @@ def pregunta_06():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+
+    data = [row.replace('\n', '') for row in data] 
+    data = [row.split('\t') for row in data ]
+    data = [row[4] for row in data]
+    data = [row.split(',') for row in data]
+    data = [a.split(':') for row in data for a in row]
+
+    dic = {row[0]: [int(row[1]),  0] for row in data } 
+    for i in data:
+        if dic[i[0]][0] > int(i[1]):
+            dic[i[0]][0] = int(i[1])
+
+        if dic[i[0]][1] < int(i[1]):
+            dic[i[0]][1] = int(i[1])
+
+    list_tuple = [(key, value[0], value[1]) for key, value in dic.items()]
+
+    list_tuple.sort(key=lambda x: x[0])
+    return list_tuple
+    
+
 
 
 def pregunta_07():
@@ -149,8 +225,20 @@ def pregunta_07():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
 
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t')[:2] for row in data ]
+    data = [[row[0], int(row[1])] for row in data]
+    dic = {key[1] : [] for key in data}
+    for i in data:
+        # if i[0] not in dic[i[1]]:
+        dic[i[1]].append(i[0])
+
+    list_data = [(key, value) for key, value in dic.items()]
+    list_data.sort(key=lambda x: x[0])
+    return list_data
 
 def pregunta_08():
     """
@@ -174,7 +262,20 @@ def pregunta_08():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t')[:2] for row in data ]
+    data = [[row[0], int(row[1])] for row in data]
+    dic = {key[1] : [] for key in data}
+    for i in data:
+        if i[0] not in dic[i[1]]:
+            dic[i[1]].append(i[0])
+
+    list_data = [(key, sorted(value)) for key, value in dic.items()]
+    list_data.sort(key=lambda x: x[0])
+    return list_data
 
 
 def pregunta_09():
@@ -197,7 +298,17 @@ def pregunta_09():
     }
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t')[4] for row in data]
+    data = [row.split(',') for row in data]
+    data = [key.split(':')[0] for row in data for key in row]
+    dic = {key:0 for key in data}
+    for i in data:
+        dic[i]+=1
+    return dic
 
 
 def pregunta_10():
@@ -218,7 +329,14 @@ def pregunta_10():
 
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
+    data = [[row[0], row[3].split(','), row[4].split(',')] for row in data]
+    lis_tuple = [(row[0], len(row[1]), len(row[2])) for row in data]
+    return lis_tuple
 
 
 def pregunta_11():
@@ -239,7 +357,20 @@ def pregunta_11():
 
 
     """
-    return
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
+    data = [[row[1], row[3].split(',')] for row in data]
+
+    data = [[int(row[0]), i] for row in data for i in row[1]] 
+    dic = {letra[1]:0 for letra in data}
+    for i in data:
+        dic[i[1]] += i[0]
+    list_tupla = [(key, value) for key, value in dic.items()]
+    list_tupla.sort(key =lambda x: x[0])
+    return dict(list_tupla)
 
 
 def pregunta_12():
@@ -257,4 +388,28 @@ def pregunta_12():
     }
 
     """
-    return
+    import re
+    with open('data.csv', 'r') as file:
+        data = file.readlines()
+
+    data = [row.replace('\n','') for row in data]
+    data = [row.split('\t') for row in data]
+    data = [[col[0], col[4]] for col in data]
+    # data = [[row[0], re.findall(r'(?<=:)\w+', row[1])] for row in data]
+    data = [[row[0], re.findall(r'\d+', row[1])] for row in data]
+    data = [[row[0], [int(a) for a in row[1]]] for row in data ]
+    # data = [[row[0], sum(number for number in row[1])] for row in data]
+    dic = { letra[0] : 0 for letra in data}
+    new_data = []
+    for i in data: 
+        sum = 0
+        
+        for j in i[1]:
+            sum += j
+        new_data.append([i[0], sum])
+
+    for i in new_data:
+        dic[i[0]] += i[1]
+    list_out = [(i, j) for i,j in dic.items()]
+    list_out.sort(key = lambda x: x[0])
+    return dict(list_out)
