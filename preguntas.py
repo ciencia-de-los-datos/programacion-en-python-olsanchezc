@@ -397,12 +397,19 @@ def pregunta_12():
     data = [[col[0], col[4]] for col in data]
     # data = [[row[0], re.findall(r'(?<=:)\w+', row[1])] for row in data]
     data = [[row[0], re.findall(r'\d+', row[1])] for row in data]
-    data = [[row[0], sum([int(a) for a in row[1]])] for row in data ]
-
+    data = [[row[0], [int(a) for a in row[1]]] for row in data ]
+    # data = [[row[0], sum(number for number in row[1])] for row in data]
     dic = { letra[0] : 0 for letra in data}
+    new_data = []
+    for i in data: 
+        sum = 0
+        
+        for j in i[1]:
+            sum += j
+        new_data.append([i[0], sum])
 
-    for i in data:
+    for i in new_data:
         dic[i[0]] += i[1]
     list_out = [(i, j) for i,j in dic.items()]
     list_out.sort(key = lambda x: x[0])
-    return list_out
+    return dict(list_out)
